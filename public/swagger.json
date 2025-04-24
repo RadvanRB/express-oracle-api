@@ -1,0 +1,1128 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ProductDto": {
+				"description": "Detail produktu",
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double",
+						"description": "ID produktu",
+						"example": 1
+					},
+					"name": {
+						"type": "string",
+						"description": "Název produktu",
+						"example": "iPhone 15"
+					},
+					"description": {
+						"type": "string",
+						"description": "Popis produktu",
+						"example": "Nejnovější model iPhonu s pokročilými funkcemi"
+					},
+					"category": {
+						"type": "string",
+						"description": "Kategorie produktu",
+						"example": "Elektronika"
+					},
+					"subCategory": {
+						"type": "string",
+						"description": "Podkategorie produktu",
+						"example": "Mobilní telefony"
+					},
+					"price": {
+						"type": "number",
+						"format": "double",
+						"description": "Cena produktu",
+						"example": 24999.99
+					},
+					"stock": {
+						"type": "number",
+						"format": "double",
+						"description": "Množství na skladě",
+						"example": 50
+					},
+					"width": {
+						"type": "number",
+						"format": "double",
+						"description": "Šířka produktu v cm",
+						"example": 7.5
+					},
+					"height": {
+						"type": "number",
+						"format": "double",
+						"description": "Výška produktu v cm",
+						"example": 15.2
+					},
+					"depth": {
+						"type": "number",
+						"format": "double",
+						"description": "Hloubka produktu v cm",
+						"example": 0.8
+					},
+					"weight": {
+						"type": "number",
+						"format": "double",
+						"description": "Hmotnost produktu v kg",
+						"example": 0.17
+					},
+					"color": {
+						"type": "string",
+						"description": "Barva produktu",
+						"example": "Černá"
+					},
+					"manufacturer": {
+						"type": "string",
+						"description": "Výrobce produktu",
+						"example": "Apple"
+					},
+					"sku": {
+						"type": "string",
+						"description": "SKU produktu (Stock Keeping Unit)",
+						"example": "APL-IP15-128-BLK"
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Je produkt aktivní?",
+						"example": true
+					},
+					"manufactureDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum výroby"
+					},
+					"expiryDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum expirace"
+					},
+					"stockedDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum naskladnění"
+					},
+					"lastSoldDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum posledního prodeje"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum vytvoření záznamu"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum poslední aktualizace záznamu"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"category",
+					"price",
+					"stock",
+					"isActive",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateProductDto": {
+				"description": "Data pro vytvoření produktu",
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "Název produktu",
+						"example": "iPhone 15"
+					},
+					"description": {
+						"type": "string",
+						"description": "Popis produktu",
+						"example": "Nejnovější model iPhonu s pokročilými funkcemi"
+					},
+					"category": {
+						"type": "string",
+						"description": "Kategorie produktu",
+						"example": "Elektronika"
+					},
+					"subCategory": {
+						"type": "string",
+						"description": "Podkategorie produktu",
+						"example": "Mobilní telefony"
+					},
+					"price": {
+						"type": "number",
+						"format": "double",
+						"description": "Cena produktu",
+						"example": 24999.99
+					},
+					"stock": {
+						"type": "number",
+						"format": "double",
+						"description": "Množství na skladě",
+						"example": 50
+					},
+					"width": {
+						"type": "number",
+						"format": "double",
+						"description": "Šířka produktu v cm",
+						"example": 7.5
+					},
+					"height": {
+						"type": "number",
+						"format": "double",
+						"description": "Výška produktu v cm",
+						"example": 15.2
+					},
+					"depth": {
+						"type": "number",
+						"format": "double",
+						"description": "Hloubka produktu v cm",
+						"example": 0.8
+					},
+					"weight": {
+						"type": "number",
+						"format": "double",
+						"description": "Hmotnost produktu v kg",
+						"example": 0.17
+					},
+					"color": {
+						"type": "string",
+						"description": "Barva produktu",
+						"example": "Černá"
+					},
+					"manufacturer": {
+						"type": "string",
+						"description": "Výrobce produktu",
+						"example": "Apple"
+					},
+					"sku": {
+						"type": "string",
+						"description": "SKU produktu (Stock Keeping Unit)",
+						"example": "APL-IP15-128-BLK"
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Je produkt aktivní?",
+						"example": true,
+						"default": true
+					},
+					"manufactureDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum výroby",
+						"example": "2023-09-15T00:00:00Z"
+					},
+					"expiryDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum expirace",
+						"example": "2028-09-15T00:00:00Z"
+					},
+					"stockedDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum naskladnění",
+						"example": "2023-09-20T00:00:00Z"
+					},
+					"lastSoldDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum posledního prodeje",
+						"example": "2023-10-01T00:00:00Z"
+					}
+				},
+				"required": [
+					"name",
+					"category",
+					"price",
+					"stock"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateProductDto": {
+				"description": "Data pro aktualizaci produktu",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"subCategory": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"stock": {
+						"type": "number",
+						"format": "double"
+					},
+					"width": {
+						"type": "number",
+						"format": "double"
+					},
+					"height": {
+						"type": "number",
+						"format": "double"
+					},
+					"depth": {
+						"type": "number",
+						"format": "double"
+					},
+					"weight": {
+						"type": "number",
+						"format": "double"
+					},
+					"color": {
+						"type": "string"
+					},
+					"manufacturer": {
+						"type": "string"
+					},
+					"sku": {
+						"type": "string"
+					},
+					"isActive": {
+						"type": "boolean"
+					},
+					"manufactureDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"expiryDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"stockedDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"lastSoldDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserDto": {
+				"description": "Detail uživatele",
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double",
+						"description": "ID uživatele",
+						"example": 1
+					},
+					"firstName": {
+						"type": "string",
+						"description": "Jméno uživatele",
+						"example": "Jan"
+					},
+					"lastName": {
+						"type": "string",
+						"description": "Příjmení uživatele",
+						"example": "Novák"
+					},
+					"email": {
+						"type": "string",
+						"description": "Email uživatele",
+						"example": "jan.novak@example.com",
+						"format": "email"
+					},
+					"phone": {
+						"type": "string",
+						"description": "Telefonní číslo uživatele",
+						"example": "+420123456789"
+					},
+					"address": {
+						"type": "string",
+						"description": "Adresa uživatele",
+						"example": "Pražská 123, Praha"
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Je uživatel aktivní?",
+						"example": true
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum vytvoření záznamu"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum poslední aktualizace záznamu"
+					}
+				},
+				"required": [
+					"id",
+					"firstName",
+					"lastName",
+					"email",
+					"isActive",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateUserDto": {
+				"description": "Data pro vytvoření uživatele",
+				"properties": {
+					"firstName": {
+						"type": "string",
+						"description": "Jméno uživatele",
+						"example": "Jan"
+					},
+					"lastName": {
+						"type": "string",
+						"description": "Příjmení uživatele",
+						"example": "Novák"
+					},
+					"email": {
+						"type": "string",
+						"description": "Email uživatele",
+						"example": "jan.novak@example.com",
+						"format": "email"
+					},
+					"password": {
+						"type": "string",
+						"description": "Heslo uživatele",
+						"example": "Password123!",
+						"minLength": 8
+					},
+					"phone": {
+						"type": "string",
+						"description": "Telefonní číslo uživatele",
+						"example": "+420123456789",
+						"pattern": "^[+]?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$"
+					},
+					"address": {
+						"type": "string",
+						"description": "Adresa uživatele",
+						"example": "Pražská 123, Praha"
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Je uživatel aktivní?",
+						"example": true,
+						"default": true
+					}
+				},
+				"required": [
+					"firstName",
+					"lastName",
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUserDto": {
+				"description": "Data pro aktualizaci uživatele",
+				"properties": {
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"isActive": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"jwt": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"info": {
+		"title": "express-oracle-api",
+		"version": "1.0.0",
+		"description": "REST API s Express.js, TypeORM, Zod a Oracle",
+		"contact": {}
+	},
+	"paths": {
+		"/products": {
+			"get": {
+				"operationId": "GetProducts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"totalPages": {
+											"type": "number",
+											"format": "double"
+										},
+										"limit": {
+											"type": "number",
+											"format": "double"
+										},
+										"page": {
+											"type": "number",
+											"format": "double"
+										},
+										"total": {
+											"type": "number",
+											"format": "double"
+										},
+										"data": {
+											"items": {
+												"$ref": "#/components/schemas/ProductDto"
+											},
+											"type": "array"
+										}
+									},
+									"required": [
+										"totalPages",
+										"limit",
+										"page",
+										"total",
+										"data"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Získá seznam všech produktů s podporou filtrování a stránkování\r\nPodporuje generické filtry ve formátu field@operator=value\r\n\r\nPříklady:\r\n- manufactureDate@AFTER=2023-01-01T00:00:00.000Z\r\n- price@BETWEEN=1000,5000\r\n- manufacturer@IN=Apple,Samsung,Sony\r\n- name@ILIKE=iPhone",
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateProduct",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductDto"
+								}
+							}
+						}
+					}
+				},
+				"description": "Vytvoří nový produkt",
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Data pro vytvoření produktu",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateProductDto",
+								"description": "Data pro vytvoření produktu"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/products/{productId}": {
+			"get": {
+				"operationId": "GetProduct",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductDto"
+								}
+							}
+						}
+					}
+				},
+				"description": "Získá detail produktu podle ID",
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID produktu",
+						"in": "path",
+						"name": "productId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateProduct",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductDto"
+								}
+							}
+						}
+					}
+				},
+				"description": "Aktualizuje existující produkt",
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID produktu",
+						"in": "path",
+						"name": "productId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Data pro aktualizaci produktu",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateProductDto",
+								"description": "Data pro aktualizaci produktu"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteProduct",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "Smaže produkt podle ID",
+				"tags": [
+					"Products"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "ID produktu",
+						"in": "path",
+						"name": "productId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/products/seed": {
+			"post": {
+				"operationId": "SeedTestData",
+				"responses": {
+					"201": {
+						"description": "Test data created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"count": {
+											"type": "number",
+											"format": "double"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"count",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Naplní databázi testovacími daty pro testování filtrů",
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/products/advanced-filter": {
+			"post": {
+				"operationId": "AdvancedFilter",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"totalPages": {
+											"type": "number",
+											"format": "double"
+										},
+										"limit": {
+											"type": "number",
+											"format": "double"
+										},
+										"page": {
+											"type": "number",
+											"format": "double"
+										},
+										"total": {
+											"type": "number",
+											"format": "double"
+										},
+										"data": {
+											"items": {
+												"$ref": "#/components/schemas/ProductDto"
+											},
+											"type": "array"
+										}
+									},
+									"required": [
+										"totalPages",
+										"limit",
+										"page",
+										"total",
+										"data"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Pokročilý filtr pro produkty - demonstrace komplexního filtrování",
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"sort": {
+										"items": {
+											"properties": {
+												"direction": {
+													"type": "string"
+												},
+												"field": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"direction",
+												"field"
+											],
+											"type": "object"
+										},
+										"type": "array"
+									},
+									"limit": {
+										"type": "number",
+										"format": "double"
+									},
+									"page": {
+										"type": "number",
+										"format": "double"
+									},
+									"isActive": {
+										"type": "boolean"
+									},
+									"inStock": {
+										"type": "boolean"
+									},
+									"searchText": {
+										"type": "string"
+									},
+									"dimensions": {
+										"properties": {
+											"maxWeight": {
+												"type": "number",
+												"format": "double"
+											},
+											"maxDepth": {
+												"type": "number",
+												"format": "double"
+											},
+											"maxHeight": {
+												"type": "number",
+												"format": "double"
+											},
+											"maxWidth": {
+												"type": "number",
+												"format": "double"
+											}
+										},
+										"type": "object"
+									},
+									"dateFilters": {
+										"properties": {
+											"stockedDateBefore": {
+												"type": "string"
+											},
+											"stockedDateAfter": {
+												"type": "string"
+											},
+											"expiryDateBefore": {
+												"type": "string"
+											},
+											"expiryDateAfter": {
+												"type": "string"
+											},
+											"manufacturedBefore": {
+												"type": "string"
+											},
+											"manufacturedAfter": {
+												"type": "string"
+											}
+										},
+										"type": "object"
+									},
+									"manufacturers": {
+										"items": {
+											"type": "string"
+										},
+										"type": "array"
+									},
+									"categories": {
+										"items": {
+											"type": "string"
+										},
+										"type": "array"
+									},
+									"priceRange": {
+										"properties": {
+											"max": {
+												"type": "number",
+												"format": "double"
+											},
+											"min": {
+												"type": "number",
+												"format": "double"
+											}
+										},
+										"type": "object"
+									}
+								},
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users": {
+			"get": {
+				"operationId": "GetUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"totalPages": {
+											"type": "number",
+											"format": "double"
+										},
+										"limit": {
+											"type": "number",
+											"format": "double"
+										},
+										"page": {
+											"type": "number",
+											"format": "double"
+										},
+										"total": {
+											"type": "number",
+											"format": "double"
+										},
+										"data": {
+											"items": {
+												"$ref": "#/components/schemas/UserDto"
+											},
+											"type": "array"
+										}
+									},
+									"required": [
+										"totalPages",
+										"limit",
+										"page",
+										"total",
+										"data"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Získá seznam všech uživatelů s filtrováním a stránkováním",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Číslo stránky",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Počet záznamů na stránku",
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Filtr podle jména",
+						"in": "query",
+						"name": "firstName",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Filtr podle příjmení",
+						"in": "query",
+						"name": "lastName",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Filtr podle emailu",
+						"in": "query",
+						"name": "email",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserDto"
+								}
+							}
+						}
+					}
+				},
+				"description": "Vytvoří nového uživatele",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Data pro vytvoření uživatele",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUserDto",
+								"description": "Data pro vytvoření uživatele"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/{userId}": {
+			"get": {
+				"operationId": "GetUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserDto"
+								}
+							}
+						}
+					}
+				},
+				"description": "Získá detail uživatele podle ID",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserDto"
+								}
+							}
+						}
+					}
+				},
+				"description": "Aktualizuje existujícího uživatele",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Data pro aktualizaci uživatele",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserDto",
+								"description": "Data pro aktualizaci uživatele"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteUser",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "Smaže uživatele podle ID",
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
