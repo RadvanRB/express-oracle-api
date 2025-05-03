@@ -3,8 +3,10 @@ import {
     Repository, 
     SelectQueryBuilder, 
     EntityTarget, 
-    Brackets ,
-    WhereExpressionBuilder
+    Brackets,
+    WhereExpressionBuilder,
+    FindOptionsWhere,
+    ObjectLiteral
   } from "typeorm";
   import { AppDataSource } from "../config/database";
   import { 
@@ -17,16 +19,57 @@ import {
     SortDirection, 
     PaginatedResult 
   } from "../types/filters";
-  import { ObjectLiteral } from "typeorm";
+  
+  /**
+   * Typ pro konfiguraci primárních klíčů
+   * Může být buď název jednoho sloupce (string) nebo pole názvů sloupců (pro složené primární klíče)
+   */
+  export type PrimaryKeyConfig = string | string[];
+  
+  /**
+   * Typ pro hodnoty primárních klíčů
+   * Pro jednoduchý primární klíč (jeden sloupec): jednoduchá hodnota
+   * Pro složené primární klíče: objekt s páry klíč-hodnota
+   */
+  export type PrimaryKeyValue = string | number | Record<string, any>;
   
   export abstract class AbstractService<T extends ObjectLiteral> {
     protected repository: Repository<T>;
     protected entityName: string;
+    protected primaryKeys: string[] = [];
   
-    constructor(entity: EntityTarget<T>, entityName: string) {
-        this.repository = AppDataSource.getRepository(entity);
-        this.entityName = entityName.toLowerCase();
+    /**
+     * @param entity TypeORM entita
+     * @param entityName Název entity pro použití v dotazech
+     * @param primaryKeyConfig Volitelná konfigurace primárních klíčů - pokud není uvedena, 
+     * pokusí se je získat z metadat entity
+     */
+    constructor(
+      entity: EntityTarget<T>, 
+      entityName: string,
+      primaryKeyConfig?: PrimaryKeyConfig
+    ) {
+      this.repository = AppDataSource.getRepository(entity);
+      this.entityName = entityName.toLowerCase();
+      
+      // Inicializace primárních klíčů
+      if (primaryKeyConfig) {
+        // Použití explicitně zadané konfigurace
+        this.primaryKeys = Array.isArray(primaryKeyConfig) 
+          ? primaryKeyConfig 
+          : [primaryKeyConfig];
+      } else {
+        // Pokus o získání z metadat entity
+        const primaryColumns = this.repository.metadata.primaryColumns;
+        if (primaryColumns.length > 0) {
+          this.primaryKeys = primaryColumns.map(column => column.propertyName);
+        } else {
+          // Fallback na 'id', pokud nejsou definovány primární klíče
+          this.primaryKeys = ['id'];
+          console.warn(`No primary keys defined for entity ${entityName}, using 'id' as default primary key`);
+        }
       }
+    }
   
     /**
      * Najde všechny entity s podporou filtrování, řazení a stránkování
@@ -221,9 +264,48 @@ import {
       }
     }
   
-    // Další obecné metody pro CRUD operace, které lze použít v odvozených třídách
+    /**
+     * Vytvoří where podmínku pro primární klíč
+     * @param primaryKeyValue Hodnota primárního klíče (jednoduchá hodnota nebo objekt pro složené klíče)
+     * @returns Where podmínka pro TypeORM
+     */
+    protected createPrimaryKeyCondition(primaryKeyValue: PrimaryKeyValue): FindOptionsWhere<T> {
+      if (this.primaryKeys.length === 1 && (typeof primaryKeyValue === 'string' || typeof primaryKeyValue === 'number')) {
+        // Pro jednoduchý primární klíč a jednoduchou hodnotu
+        return { [this.primaryKeys[0]]: primaryKeyValue } as FindOptionsWhere<T>;
+      } else if (typeof primaryKeyValue === 'object' && !Array.isArray(primaryKeyValue)) {
+        // Pro složené primární klíče jako objekt
+        // Ověříme, že objekt obsahuje všechny potřebné klíče
+        for (const key of this.primaryKeys) {
+          if (primaryKeyValue[key] === undefined) {
+            throw new Error(`Missing primary key ${key} in condition object`);
+          }
+        }
+        return primaryKeyValue as FindOptionsWhere<T>;
+      } else {
+        throw new Error(`Invalid primary key value. Expected ${this.primaryKeys.length > 1 
+          ? 'an object with keys: ' + this.primaryKeys.join(', ') 
+          : 'a single value for key: ' + this.primaryKeys[0]}`);
+      }
+    }
+  
+    // Metody pro CRUD operace, které lze použít v odvozených třídách
+    
+    /**
+     * Najde entitu podle primárního klíče
+     * @param id Jednoduchá hodnota pro jednoduchý primární klíč nebo objekt pro složené primární klíče
+     */
+    async findByPrimaryKey(id: PrimaryKeyValue): Promise<T | null> {
+      const condition = this.createPrimaryKeyCondition(id);
+      return this.repository.findOneBy(condition);
+    }
+    
+    /**
+     * Alias pro findByPrimaryKey, pro zpětnou kompatibilitu
+     * @deprecated Použijte findByPrimaryKey
+     */
     async findById(id: number): Promise<T | null> {
-      return this.repository.findOneBy({ id } as any);
+      return this.findByPrimaryKey(id);
     }
   
     // Pro jednu entitu
@@ -245,18 +327,42 @@ import {
         return this.createOne(data);
     }
   
-    async update(id: number, data: any): Promise<T> {
-      const entity = await this.repository.findOneBy({ id } as any);
+    /**
+     * Aktualizuje entitu podle primárního klíče
+     * @param id Hodnota primárního klíče (jednoduchá hodnota nebo objekt pro složené klíče)
+     * @param data Data pro aktualizaci
+     */
+    async update(id: PrimaryKeyValue, data: any): Promise<T> {
+      const condition = this.createPrimaryKeyCondition(id);
+      const entity = await this.repository.findOneBy(condition);
+      
       if (!entity) {
-        throw new Error(`Entity with ID ${id} not found`);
+        const keyDescription = typeof id === 'object' 
+          ? JSON.stringify(id) 
+          : id.toString();
+        throw new Error(`Entity with primary key ${keyDescription} not found`);
       }
       
       this.repository.merge(entity, data);
       return this.repository.save(entity);
     }
   
-    async delete(id: number): Promise<boolean> {
-      const result = await this.repository.delete(id);
-      return result.affected !== undefined && result.affected !== null && result.affected > 0;
+    /**
+     * Smaže entitu podle primárního klíče
+     * @param id Hodnota primárního klíče (jednoduchá hodnota nebo objekt pro složené klíče)
+     */
+    async delete(id: PrimaryKeyValue): Promise<boolean> {
+      if (this.primaryKeys.length === 1 && (typeof id === 'string' || typeof id === 'number')) {
+        // Pro jednoduchý primární klíč - můžeme použít this.repository.delete přímo
+        const result = await this.repository.delete(id);
+        return result.affected !== undefined && result.affected !== null && result.affected > 0;
+      } else {
+        // Pro složené primární klíče - musíme použít remove s entitou
+        const entity = await this.findByPrimaryKey(id);
+        if (!entity) return false;
+        
+        await this.repository.remove(entity);
+        return true;
+      }
     }
   }
