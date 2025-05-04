@@ -1,6 +1,7 @@
 import { createApp } from "./app";
 import { SERVER_CONFIG } from "./config/server";
-import { initializeDatabase } from "./config/database";
+import { initializeDatabase } from "./config/databaseManager";
+import { registerDatabaseConnections } from "./config/databaseConnections";
 import pLimit from "p-limit";
 
 // Globální omezovač paralelismu
@@ -9,7 +10,8 @@ export const limiter = pLimit(SERVER_CONFIG.maxConcurrentOperations);
 // Funkce pro spuštění serveru
 const startServer = async () => {
   try {
-    // Inicializace databáze
+    // Registrace a inicializace databázových připojení
+    registerDatabaseConnections();
     await initializeDatabase();
     
     // Vytvoření aplikace

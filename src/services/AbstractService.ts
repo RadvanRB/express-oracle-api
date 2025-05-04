@@ -6,10 +6,11 @@ import {
     Brackets,
     WhereExpressionBuilder,
     FindOptionsWhere,
-    ObjectLiteral
+    ObjectLiteral,
+    DataSource
   } from "typeorm";
-  import { AppDataSource } from "../config/database";
-  import { 
+  import { databaseManager } from "../config/databaseManager";
+  import {
     QueryOptions, 
     Filter, 
     LogicalFilter, 
@@ -19,6 +20,7 @@ import {
     SortDirection, 
     PaginatedResult 
   } from "../types/filters";
+  import { DatabaseConnectionName } from "../config/databaseConnections";
   
   /**
    * Typ pro konfiguraci primárních klíčů
@@ -37,19 +39,23 @@ import {
     protected repository: Repository<T>;
     protected entityName: string;
     protected primaryKeys: string[] = [];
+    protected dataSource: DataSource;
   
     /**
      * @param entity TypeORM entita
      * @param entityName Název entity pro použití v dotazech
      * @param primaryKeyConfig Volitelná konfigurace primárních klíčů - pokud není uvedena, 
      * pokusí se je získat z metadat entity
+     * @param dataSourceName Název databázového připojení, které má být použito (volitelné)
      */
     constructor(
       entity: EntityTarget<T>, 
       entityName: string,
-      primaryKeyConfig?: PrimaryKeyConfig
+      primaryKeyConfig?: PrimaryKeyConfig,
+      dataSourceName?: DatabaseConnectionName
     ) {
-      this.repository = AppDataSource.getRepository(entity);
+      this.dataSource = databaseManager.getDataSource(dataSourceName);
+      this.repository = this.dataSource.getRepository(entity);
       this.entityName = entityName.toLowerCase();
       
       // Inicializace primárních klíčů

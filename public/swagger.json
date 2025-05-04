@@ -7,6 +7,275 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"User": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"isActive": {
+						"type": "boolean"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"firstName",
+					"lastName",
+					"email",
+					"password",
+					"isActive",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserRole": {
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"roleId": {
+						"type": "number",
+						"format": "double"
+					},
+					"roleName": {
+						"type": "string"
+					},
+					"isActive": {
+						"type": "boolean"
+					},
+					"description": {
+						"type": "string"
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"userId",
+					"roleId",
+					"roleName",
+					"isActive",
+					"user",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AssignRoleRequest": {
+				"properties": {
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"roleId": {
+						"type": "number",
+						"format": "double"
+					},
+					"roleName": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"userId",
+					"roleId",
+					"roleName"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateRoleRequest": {
+				"properties": {
+					"roleName": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"isActive": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserDto": {
+				"description": "Detail uživatele",
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double",
+						"description": "ID uživatele",
+						"example": 1
+					},
+					"firstName": {
+						"type": "string",
+						"description": "Jméno uživatele",
+						"example": "Jan"
+					},
+					"lastName": {
+						"type": "string",
+						"description": "Příjmení uživatele",
+						"example": "Novák"
+					},
+					"email": {
+						"type": "string",
+						"description": "Email uživatele",
+						"example": "jan.novak@example.com",
+						"format": "email"
+					},
+					"phone": {
+						"type": "string",
+						"description": "Telefonní číslo uživatele",
+						"example": "+420123456789"
+					},
+					"address": {
+						"type": "string",
+						"description": "Adresa uživatele",
+						"example": "Pražská 123, Praha"
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Je uživatel aktivní?",
+						"example": true
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum vytvoření záznamu"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Datum poslední aktualizace záznamu"
+					}
+				},
+				"required": [
+					"id",
+					"firstName",
+					"lastName",
+					"email",
+					"isActive",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateUserDto": {
+				"description": "Data pro vytvoření uživatele",
+				"properties": {
+					"firstName": {
+						"type": "string",
+						"description": "Jméno uživatele",
+						"example": "Jan"
+					},
+					"lastName": {
+						"type": "string",
+						"description": "Příjmení uživatele",
+						"example": "Novák"
+					},
+					"email": {
+						"type": "string",
+						"description": "Email uživatele",
+						"example": "jan.novak@example.com",
+						"format": "email"
+					},
+					"password": {
+						"type": "string",
+						"description": "Heslo uživatele",
+						"example": "Password123!",
+						"minLength": 8
+					},
+					"phone": {
+						"type": "string",
+						"description": "Telefonní číslo uživatele",
+						"example": "+420123456789",
+						"pattern": "^[+]?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$"
+					},
+					"address": {
+						"type": "string",
+						"description": "Adresa uživatele",
+						"example": "Pražská 123, Praha"
+					},
+					"isActive": {
+						"type": "boolean",
+						"description": "Je uživatel aktivní?",
+						"example": true,
+						"default": true
+					}
+				},
+				"required": [
+					"firstName",
+					"lastName",
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUserDto": {
+				"description": "Data pro aktualizaci uživatele",
+				"properties": {
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"isActive": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ProductDto": {
 				"description": "Detail produktu",
 				"properties": {
@@ -320,144 +589,33 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"UserDto": {
-				"description": "Detail uživatele",
-				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double",
-						"description": "ID uživatele",
-						"example": 1
-					},
-					"firstName": {
-						"type": "string",
-						"description": "Jméno uživatele",
-						"example": "Jan"
-					},
-					"lastName": {
-						"type": "string",
-						"description": "Příjmení uživatele",
-						"example": "Novák"
-					},
-					"email": {
-						"type": "string",
-						"description": "Email uživatele",
-						"example": "jan.novak@example.com",
-						"format": "email"
-					},
-					"phone": {
-						"type": "string",
-						"description": "Telefonní číslo uživatele",
-						"example": "+420123456789"
-					},
-					"address": {
-						"type": "string",
-						"description": "Adresa uživatele",
-						"example": "Pražská 123, Praha"
-					},
-					"isActive": {
-						"type": "boolean",
-						"description": "Je uživatel aktivní?",
-						"example": true
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "date-time",
-						"description": "Datum vytvoření záznamu"
-					},
-					"updatedAt": {
-						"type": "string",
-						"format": "date-time",
-						"description": "Datum poslední aktualizace záznamu"
-					}
+			"Record_string.string_": {
+				"properties": {},
+				"additionalProperties": {
+					"type": "string"
 				},
-				"required": [
-					"id",
-					"firstName",
-					"lastName",
-					"email",
-					"isActive",
-					"createdAt"
-				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "Construct a type with a set of properties K of type T"
 			},
-			"CreateUserDto": {
-				"description": "Data pro vytvoření uživatele",
-				"properties": {
-					"firstName": {
-						"type": "string",
-						"description": "Jméno uživatele",
-						"example": "Jan"
+			"Record_string._description-string--example-string__": {
+				"properties": {},
+				"additionalProperties": {
+					"properties": {
+						"example": {
+							"type": "string"
+						},
+						"description": {
+							"type": "string"
+						}
 					},
-					"lastName": {
-						"type": "string",
-						"description": "Příjmení uživatele",
-						"example": "Novák"
-					},
-					"email": {
-						"type": "string",
-						"description": "Email uživatele",
-						"example": "jan.novak@example.com",
-						"format": "email"
-					},
-					"password": {
-						"type": "string",
-						"description": "Heslo uživatele",
-						"example": "Password123!",
-						"minLength": 8
-					},
-					"phone": {
-						"type": "string",
-						"description": "Telefonní číslo uživatele",
-						"example": "+420123456789",
-						"pattern": "^[+]?[(]?[0-9]{3}[)]?[-\\s.]?[0-9]{3}[-\\s.]?[0-9]{4,6}$"
-					},
-					"address": {
-						"type": "string",
-						"description": "Adresa uživatele",
-						"example": "Pražská 123, Praha"
-					},
-					"isActive": {
-						"type": "boolean",
-						"description": "Je uživatel aktivní?",
-						"example": true,
-						"default": true
-					}
-				},
-				"required": [
-					"firstName",
-					"lastName",
-					"email",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateUserDto": {
-				"description": "Data pro aktualizaci uživatele",
-				"properties": {
-					"firstName": {
-						"type": "string"
-					},
-					"lastName": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"phone": {
-						"type": "string"
-					},
-					"address": {
-						"type": "string"
-					},
-					"isActive": {
-						"type": "boolean"
-					}
+					"required": [
+						"example",
+						"description"
+					],
+					"type": "object"
 				},
 				"type": "object",
-				"additionalProperties": false
+				"description": "Construct a type with a set of properties K of type T"
 			}
 		},
 		"securitySchemes": {
@@ -475,6 +633,490 @@
 		"contact": {}
 	},
 	"paths": {
+		"/user-roles/user/{userId}": {
+			"get": {
+				"operationId": "GetUserRoles",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/UserRole"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Získá všechny role pro konkrétního uživatele",
+				"tags": [
+					"User Roles"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/user-roles/user/{userId}/role/{roleId}": {
+			"get": {
+				"operationId": "GetUserRole",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserRole"
+								}
+							}
+						}
+					}
+				},
+				"description": "Získá detail konkrétní role uživatele\nUkázka práce se složeným primárním klíčem",
+				"tags": [
+					"User Roles"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "ID role",
+						"in": "path",
+						"name": "roleId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUserRole",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserRole"
+								}
+							}
+						}
+					}
+				},
+				"description": "Aktualizuje informace o roli uživatele\nUkázka práce se složeným primárním klíčem",
+				"tags": [
+					"User Roles"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "ID role",
+						"in": "path",
+						"name": "roleId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Data pro aktualizaci role",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateRoleRequest",
+								"description": "Data pro aktualizaci role"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "RemoveRole",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "Odebere roli uživateli\nUkázka použití složeného primárního klíče při mazání",
+				"tags": [
+					"User Roles"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "ID role",
+						"in": "path",
+						"name": "roleId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/user-roles": {
+			"post": {
+				"operationId": "AssignRole",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserRole"
+								}
+							}
+						}
+					}
+				},
+				"description": "Přiřadí roli uživateli",
+				"tags": [
+					"User Roles"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Data pro přiřazení role",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AssignRoleRequest",
+								"description": "Data pro přiřazení role"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/user-roles/user/{userId}/deactivate": {
+			"put": {
+				"operationId": "DeactivateUserRoles",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "Deaktivuje všechny role uživatele\nUkázka hromadné aktualizace",
+				"tags": [
+					"User Roles"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users": {
+			"get": {
+				"operationId": "GetUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"totalPages": {
+											"type": "number",
+											"format": "double"
+										},
+										"limit": {
+											"type": "number",
+											"format": "double"
+										},
+										"page": {
+											"type": "number",
+											"format": "double"
+										},
+										"total": {
+											"type": "number",
+											"format": "double"
+										},
+										"data": {
+											"items": {
+												"$ref": "#/components/schemas/UserDto"
+											},
+											"type": "array"
+										}
+									},
+									"required": [
+										"totalPages",
+										"limit",
+										"page",
+										"total",
+										"data"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Získá seznam všech uživatelů s filtrováním a stránkováním",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Číslo stránky",
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Počet záznamů na stránku",
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "Filtr podle jména",
+						"in": "query",
+						"name": "firstName",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Filtr podle příjmení",
+						"in": "query",
+						"name": "lastName",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Filtr podle emailu",
+						"in": "query",
+						"name": "email",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserDto"
+								}
+							}
+						}
+					}
+				},
+				"description": "Vytvoří nového uživatele",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Data pro vytvoření uživatele",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUserDto",
+								"description": "Data pro vytvoření uživatele"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/{userId}": {
+			"get": {
+				"operationId": "GetUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserDto"
+								}
+							}
+						}
+					}
+				},
+				"description": "Získá detail uživatele podle ID",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserDto"
+								}
+							}
+						}
+					}
+				},
+				"description": "Aktualizuje existujícího uživatele",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Data pro aktualizaci uživatele",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserDto",
+								"description": "Data pro aktualizaci uživatele"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteUser",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "Smaže uživatele podle ID",
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "ID uživatele",
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/products": {
 			"get": {
 				"operationId": "GetProducts",
@@ -875,9 +1517,9 @@
 				}
 			}
 		},
-		"/users": {
+		"/products-hidden": {
 			"get": {
-				"operationId": "GetUsers",
+				"operationId": "GetProducts",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -903,7 +1545,7 @@
 										},
 										"data": {
 											"items": {
-												"$ref": "#/components/schemas/UserDto"
+												"$ref": "#/components/schemas/ProductDto"
 											},
 											"type": "array"
 										}
@@ -921,122 +1563,69 @@
 						}
 					}
 				},
-				"description": "Získá seznam všech uživatelů s filtrováním a stránkováním",
+				"description": "Získá seznam všech produktů s podporou filtrování a stránkování\n\nTato metoda je dekorována pomocí",
 				"tags": [
-					"Users"
+					"Products Hidden"
 				],
 				"security": [],
-				"parameters": [
-					{
-						"description": "Číslo stránky",
-						"in": "query",
-						"name": "page",
-						"required": false,
-						"schema": {
-							"default": 1,
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"description": "Počet záznamů na stránku",
-						"in": "query",
-						"name": "limit",
-						"required": false,
-						"schema": {
-							"default": 10,
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"description": "Filtr podle jména",
-						"in": "query",
-						"name": "firstName",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"description": "Filtr podle příjmení",
-						"in": "query",
-						"name": "lastName",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"description": "Filtr podle emailu",
-						"in": "query",
-						"name": "email",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
+				"parameters": []
 			},
 			"post": {
-				"operationId": "CreateUser",
+				"operationId": "CreateProduct",
 				"responses": {
-					"201": {
-						"description": "Created",
+					"200": {
+						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserDto"
+									"$ref": "#/components/schemas/ProductDto"
 								}
 							}
 						}
 					}
 				},
-				"description": "Vytvoří nového uživatele",
+				"description": "Vytvoří nový produkt\n\nTato metoda je dekorována pomocí",
 				"tags": [
-					"Users"
+					"Products Hidden"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
-					"description": "Data pro vytvoření uživatele",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/CreateUserDto",
-								"description": "Data pro vytvoření uživatele"
+								"$ref": "#/components/schemas/CreateProductDto"
 							}
 						}
 					}
 				}
 			}
 		},
-		"/users/{userId}": {
+		"/products-hidden/{productId}": {
 			"get": {
-				"operationId": "GetUser",
+				"operationId": "GetProduct",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserDto"
+									"$ref": "#/components/schemas/ProductDto"
 								}
 							}
 						}
 					}
 				},
-				"description": "Získá detail uživatele podle ID",
+				"description": "Získá detail produktu podle ID\n\nTato metoda je dekorována pomocí",
 				"tags": [
-					"Users"
+					"Products Hidden"
 				],
 				"security": [],
 				"parameters": [
 					{
-						"description": "ID uživatele",
 						"in": "path",
-						"name": "userId",
+						"name": "productId",
 						"required": true,
 						"schema": {
 							"format": "double",
@@ -1044,79 +1633,137 @@
 						}
 					}
 				]
-			},
-			"put": {
-				"operationId": "UpdateUser",
+			}
+		},
+		"/products-hidden/filter-operators": {
+			"get": {
+				"operationId": "GetAvailableFilterOperators",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserDto"
+									"$ref": "#/components/schemas/Record_string.string_"
 								}
 							}
 						}
 					}
 				},
-				"description": "Aktualizuje existujícího uživatele",
+				"description": "Vrátí seznam dostupných operátorů pro filtrování",
 				"tags": [
-					"Users"
+					"Products Hidden"
 				],
 				"security": [],
-				"parameters": [
-					{
-						"description": "ID uživatele",
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"description": "Data pro aktualizaci uživatele",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateUserDto",
-								"description": "Data pro aktualizaci uživatele"
+				"parameters": []
+			}
+		},
+		"/documentation/filter-operators": {
+			"get": {
+				"operationId": "GetFilterOperators",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Record_string._description-string--example-string__"
+								}
 							}
 						}
 					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteUser",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
 				},
-				"description": "Smaže uživatele podle ID",
+				"description": "Vrátí dostupné filtrační operátory s příklady použití",
 				"tags": [
-					"Users"
+					"Documentation"
 				],
-				"security": [
-					{
-						"jwt": []
-					}
-				],
-				"parameters": [
-					{
-						"description": "ID uživatele",
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/documentation/advanced-filter-examples": {
+			"get": {
+				"operationId": "GetAdvancedFilterExamples",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"properties": {
+											"example": {},
+											"description": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"example",
+											"description"
+										],
+										"type": "object"
+									},
+									"type": "array"
+								}
+							}
 						}
 					}
-				]
+				},
+				"description": "Vrátí ukázku pokročilého filtrování s použitím logických operátorů",
+				"tags": [
+					"Documentation"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/documentation/pagination-and-sort": {
+			"get": {
+				"operationId": "GetPaginationAndSortInfo",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Record_string.string_"
+								}
+							}
+						}
+					}
+				},
+				"description": "Vrátí informace o stránkování a řazení",
+				"tags": [
+					"Documentation"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/documentation/filter-url-examples": {
+			"get": {
+				"operationId": "GetFilterUrlExamples",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"type": "string"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Vrátí příklady URL s použitím filtrů",
+				"tags": [
+					"Documentation"
+				],
+				"security": [],
+				"parameters": []
 			}
 		}
 	},
