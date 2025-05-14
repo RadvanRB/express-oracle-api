@@ -20,7 +20,23 @@ const swaggerDefinition = {
   servers: [
     {
       url: `http://localhost:${SERVER_CONFIG.port}/api`,
-      description: 'Development server',
+      description: 'Všechna API',
+    },
+    {
+      url: `http://localhost:${SERVER_CONFIG.port}/api/app`,
+      description: 'App - Uživatelé a správa aplikace',
+    },
+    {
+      url: `http://localhost:${SERVER_CONFIG.port}/api/etlcore`,
+      description: 'ETLCore - ETL metadata',
+    },
+    {
+      url: `http://localhost:${SERVER_CONFIG.port}/api/interfaces`,
+      description: 'Interfaces - Vstupní data',
+    },
+    {
+      url: `http://localhost:${SERVER_CONFIG.port}/api/jlout`,
+      description: 'JLOut - In/Out přenosy',
     },
   ],
   components: {

@@ -6,22 +6,78 @@ import {
   Filter,
   SortDirection
 } from "../types/filters"; // Upravte cestu podle vaší struktury projektu
+import { parseUrlToFilter, parseUrlToSort, parseUrlToPagination } from "../utils/filterBuilder";
 
 /**
  * Middleware pro parsování URL parametrů a vytváření objektu s možnostmi dotazu
+ * 
+ * Podporuje dva způsoby zápisu filtrů:
+ * 
+ * 1. Nový formát s podporou logických operátorů AND a OR:
+ *    - filter[pole][operator]=hodnota
+ *    - filter[or][0][pole][operator]=hodnota&filter[or][1][pole2][operator]=hodnota
+ *    - filter[and][0][pole][operator]=hodnota&filter[and][1][pole2][operator]=hodnota
+ * 
+ *    Příklady:
+ *    - filter[nazev][eq]=Product1   (název = "Product1")
+ *    - filter[cena][gt]=100         (cena > 100)
+ *    - filter[or][0][nazev][like]=Product&filter[or][1][popis][like]=Good
+ *      (název obsahuje "Product" NEBO popis obsahuje "Good")
+ *    - filter[and][0][cena][gt]=100&filter[and][1][cena][lt]=500
+ *      (cena > 100 A cena < 500)
+ * 
+ * 2. Původní formát (pro zpětnou kompatibilitu):
+ *    - pole@operator=hodnota
+ * 
+ *    Příklady:
+ *    - nazev@EQ=Product1            (název = "Product1")
+ *    - cena@GT=100                  (cena > 100)
  */
-// src/middlewares/queryParser.ts
 export const parseQueryParams = (req: Request, res: Response, next: NextFunction) => {
   try {
     const queryOptions: QueryOptions = {};
     const filters: any[] = [];
     console.log("Přijaté parametry:", req.query);
 
-
+    // Nejprve zkusíme zpracovat nový formát filtrů s podporou AND a OR
+    if (req.query.filter) {
+      // Pokud je použit nový formát filtrů, použijeme parseUrlToFilter
+      const advancedFilter = parseUrlToFilter(req.query);
+      if (advancedFilter) {
+        queryOptions.filter = advancedFilter;
+        
+        // Parsování řazení a stránkování pomocí funkcí z filterBuilder
+        const sort = parseUrlToSort(req.query);
+        if (sort) {
+          queryOptions.sort = sort;
+        }
+        
+        const pagination = parseUrlToPagination(req.query);
+        if (pagination) {
+          queryOptions.pagination = pagination;
+        } else {
+          // Výchozí hodnoty pro stránkování
+          queryOptions.pagination = {
+            page: 1,
+            limit: 10
+          };
+        }
+        
+        // Přidání parsovaných parametrů do požadavku
+        (req as any).queryOptions = queryOptions;
+        console.log("Vytvořené queryOptions (nový formát):", queryOptions);
+        next();
+        return;
+      }
+    }
+    
+    // Pokud nebyl použit nový formát nebo se ho nepodařilo zpracovat,
+    // použijeme původní způsob zpracování filtrů pro zpětnou kompatibilitu
+    
     // Procházíme všechny URL parametry
     for (const [key, value] of Object.entries(req.query)) {
-      // Přeskočíme standardní parametry pro stránkování a řazení
-      if (['page', 'limit', 'sortBy', 'sortDirection'].includes(key)) {
+      // Přeskočíme standardní parametry pro stránkování a řazení a nový filtrační formát
+      if (['page', 'limit', 'sortBy', 'sortDirection', 'filter', 'sort'].includes(key)) {
         continue;
       }
       

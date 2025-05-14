@@ -1,3 +1,5 @@
+// Import reflect-metadata musí být na začátku, před ostatními importy
+import "reflect-metadata";
 import { createApp } from "./app";
 import { SERVER_CONFIG } from "./config/server";
 import { initializeDatabase } from "./config/databaseManager";
@@ -21,6 +23,7 @@ const startServer = async () => {
     app.listen(SERVER_CONFIG.port, () => {
       console.log(`Server běží na portu ${SERVER_CONFIG.port} v módu ${SERVER_CONFIG.environment}`);
       console.log(`Health check: http://localhost:${SERVER_CONFIG.port}/health`);
+      console.log(`Dokumentace : http://localhost:${SERVER_CONFIG.port}/api-docs`);
     });
   } catch (error) {
     console.error("Chyba při spuštění serveru:", error);

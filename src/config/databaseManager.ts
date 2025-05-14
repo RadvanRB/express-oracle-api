@@ -42,6 +42,7 @@ export class DatabaseManager {
   // Registrace nového připojení
   public registerDataSource(config: DatabaseConfig): void {
     const dataSource = new DataSource({
+      name: config.name,
       type: config.type,
       host: config.host,
       port: config.port,

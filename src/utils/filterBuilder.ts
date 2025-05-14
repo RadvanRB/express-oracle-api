@@ -1,4 +1,5 @@
 import { FindOperator, Like, ILike, In, Not, IsNull, MoreThan, MoreThanOrEqual, LessThan, LessThanOrEqual, Equal, Between, Raw } from "typeorm";
+import { debugFilterLog } from './logger';
 import {
   Filter,
   BaseFilter,
@@ -26,7 +27,11 @@ export const parseLogicalOperator = (operator: string): LogicalOperator => {
  * Převede řetězec porovnávacího operátoru na jeho enum hodnotu
  */
 export const parseComparisonOperator = (operator: string): ComparisonOperator => {
-  const op = operator.toLowerCase();
+  // Odstranění hranatých závorek kolem operátoru, pokud existují
+  let op = operator.toLowerCase();
+  op = op.replace(/\[|\]/g, ''); // Odstranění [ a ]
+  
+  debugFilterLog(`Zpracování operátoru: původní '${operator}', po úpravě '${op}'`);
   
   switch (op) {
     // Základní operátory
@@ -137,7 +142,7 @@ export const parseFilterValue = (value: string, operator: ComparisonOperator): a
     try {
       return new Date(value);
     } catch (error) {
-      console.error(`Chyba při parsování data: ${error}`);
+      console.error(`Chyba při parsování data: ${error}`);  // Ponecháno jako console.error, protože se jedná o chybu
       // Pokud se parsování nezdaří, vrátíme původní hodnotu
       return value;
     }
@@ -370,16 +375,19 @@ export const buildWhereCondition = (filter: Filter): TypeORMWhereCondition => {
  * - filter[field][operator]=value
  * - filter[logicalOperator][0][field][operator]=value
  * - filter[logicalOperator][1][field][operator]=value
+ * - filter[logicalOperator][0][nestedLogicalOperator][0][field][operator]=value
  * 
  * Příklady:
  * - filter[name][eq]=John
  * - filter[age][gt]=18
  * - filter[or][0][name][like]=John&filter[or][1][name][like]=Jane
+ * - filter[or][0][name][like]=Samsung&filter[or][1][and][0][price][gt]=100
  */
 export const parseUrlToFilter = (queryParams: Record<string, any>): Filter | undefined => {
   if (!queryParams.filter) return undefined;
   
   const filter = queryParams.filter;
+  debugFilterLog("Parsování filtru z URL parametrů:", filter);
   
   // Kontrola, zda se jedná o logický filtr (OR, AND)
   if (filter.or || filter.and) {
@@ -398,19 +406,33 @@ export const parseUrlToFilter = (queryParams: Record<string, any>): Filter | und
         // Rekurzivní zpracování logického filtru
         filters.push(parseUrlToFilter({ filter: subFilter }) as Filter);
       } else {
-        // Zpracování základního filtru
+        // Zpracování základního filtru - projdeme všechna pole v tomto pod-filtru
         Object.keys(subFilter).forEach((field) => {
           const fieldConditions = subFilter[field];
           
-          Object.keys(fieldConditions).forEach((op) => {
-            const value = fieldConditions[op];
-            
-            filters.push({
-              field,
-              operator: parseComparisonOperator(op),
-              value: parseFilterValue(value, parseComparisonOperator(op)),
+          // Kontrola na vnořené logické operátory
+          if (field === 'and' || field === 'or') {
+            // Rekurzivně zpracujeme vnořený logický filtr
+            const nestedFilter = { [field]: fieldConditions };
+            filters.push(parseUrlToFilter({ filter: nestedFilter }) as Filter);
+          } else {
+            // Standardní zpracování pro pole s operátory
+            Object.keys(fieldConditions).forEach((op) => {
+              const value = fieldConditions[op];
+              // Zde je důležité správně parseovat operátor
+              const operator = parseComparisonOperator(op);
+              debugFilterLog(`Parsování pole: ${field}, operátor '${op}' se převádí na enum: ${operator}, hodnota:`, value);
+              
+              // Vytvoření filtru s konkrétním operátorem
+              const parsedFilter = {
+                field,
+                operator,
+                value: parseFilterValue(value, operator),
+              };
+              debugFilterLog(`Vytvořený filtr:`, parsedFilter);
+              filters.push(parsedFilter);
             });
-          });
+          }
         });
       }
     });
@@ -424,17 +446,29 @@ export const parseUrlToFilter = (queryParams: Record<string, any>): Filter | und
     const baseFilters: BaseFilter[] = [];
     
     Object.keys(filter).forEach((field) => {
-      const fieldConditions = filter[field];
-      
-      Object.keys(fieldConditions).forEach((op) => {
-        const value = fieldConditions[op];
+      // Kontrola na vnořené logické operátory
+      if (field === 'and' || field === 'or') {
+        // Tento případ by měl být zachycen v předchozí podmínce
+        console.warn("Neočekávaný formát filtru - logický operátor v základním filtru");  // Ponecháno jako console.warn, protože se jedná o varování
+      } else {
+        const fieldConditions = filter[field];
         
-        baseFilters.push({
-          field,
-          operator: parseComparisonOperator(op),
-          value: parseFilterValue(value, parseComparisonOperator(op)),
+        Object.keys(fieldConditions).forEach((op) => {
+          const value = fieldConditions[op];
+          // Podobně jako výše, zajistíme správné parseování operátoru
+          const operator = parseComparisonOperator(op);
+          debugFilterLog(`Parsování pole: ${field}, operátor '${op}' se převádí na enum: ${operator}, hodnota:`, value);
+          
+          // Vytvoření filtru s konkrétním operátorem
+          const parsedFilter = {
+            field,
+            operator,
+            value: parseFilterValue(value, operator),
+          };
+          debugFilterLog(`Vytvořený filtr:`, parsedFilter);
+          baseFilters.push(parsedFilter);
         });
-      });
+      }
     });
     
     if (baseFilters.length === 1) {

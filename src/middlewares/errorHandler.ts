@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
 import { ValidateError } from "tsoa";
+import { DbErrorResponse, isDbErrorResponse } from "../services/AbstractService";
 
 // Interface pro rozšířené chyby
 export interface AppError extends Error {
   statusCode?: number;
   code?: string;
   errors?: any[];
+  recovered?: boolean; // Pro databázové chyby
 }
 
 /**
@@ -24,9 +26,17 @@ export const errorHandler = (
   let statusCode = err.statusCode || 500;
   let message = err.message || "Nastala chyba na serveru";
   let errors: any[] | undefined;
+  let recovered = false;
 
   // Zpracování specifických typů chyb
-  if (err instanceof ValidateError) {
+  if (isDbErrorResponse(err)) {
+    // Zpracování našich vlastních databázových chyb
+    const dbError = err as DbErrorResponse;
+    statusCode = dbError.recovered ? 200 : 503;
+    message = dbError.message;
+    recovered = dbError.recovered;
+    console.error(`[DB Error] Endpoint: ${req.originalUrl}, Error: ${dbError.error}`);
+  } else if (err instanceof ValidateError) {
     // Validační chyby z TSOA
     statusCode = 400;
     message = "Validační chyba";
@@ -50,9 +60,11 @@ export const errorHandler = (
 
   // Poslání odpovědi klientovi
   res.status(statusCode).json({
-    status: "error",
+    status: recovered ? "warning" : "error",
     message,
     errors,
+    recovered,
+    timestamp: new Date().toISOString(),
     ...(process.env.NODE_ENV === "development" && {
       stack: err.stack,
     }),

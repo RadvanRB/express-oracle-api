@@ -106,6 +106,15 @@ export interface PaginatedResult<T> {
   page: number;
   limit: number;
   totalPages: number;
+  /**
+   * Informace o zdroji dat, včetně SQL dotazu
+   */
+  source?: {
+    /**
+     * Text SQL dotazu použitého pro získání dat
+     */
+    sql: string;
+  };
 }
 
 /**
