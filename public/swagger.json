@@ -257,77 +257,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CreateSupplierDto": {
-				"description": "Data Transfer Object (DTO) pro vytvoření nového dodavatele",
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"contactName": {
-						"type": "string"
-					},
-					"contactEmail": {
-						"type": "string"
-					},
-					"contactPhone": {
-						"type": "string"
-					},
-					"address": {
-						"type": "string"
-					},
-					"city": {
-						"type": "string"
-					},
-					"postalCode": {
-						"type": "string"
-					},
-					"country": {
-						"type": "string"
-					},
-					"isActive": {
-						"type": "boolean"
-					}
-				},
-				"required": [
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateSupplierDto": {
-				"description": "DTO pro aktualizaci existujícího dodavatele\nVšechny properties jsou volitelné",
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"contactName": {
-						"type": "string"
-					},
-					"contactEmail": {
-						"type": "string"
-					},
-					"contactPhone": {
-						"type": "string"
-					},
-					"address": {
-						"type": "string"
-					},
-					"city": {
-						"type": "string"
-					},
-					"postalCode": {
-						"type": "string"
-					},
-					"country": {
-						"type": "string"
-					},
-					"isActive": {
-						"type": "boolean"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
 			"ProductDto": {
 				"description": "DTO pro zobrazení produktu\nObsahuje všechny properties produktu včetně ID a timestamps",
 				"properties": {
@@ -1346,7 +1275,7 @@
 				"parameters": []
 			}
 		},
-		"/api/productfeeds": {
+		"/interfaces/productfeeds": {
 			"get": {
 				"operationId": "GetProductFeeds",
 				"responses": {
@@ -1461,7 +1390,7 @@
 				}
 			}
 		},
-		"/api/productfeeds/{id}": {
+		"/interfaces/productfeeds/{id}": {
 			"get": {
 				"operationId": "GetProductFeed",
 				"responses": {
@@ -1582,7 +1511,7 @@
 				]
 			}
 		},
-		"/api/productfeeds/{id}/products": {
+		"/interfaces/productfeeds/{id}/products": {
 			"get": {
 				"operationId": "GetProductsForFeed",
 				"responses": {
@@ -1845,7 +1774,7 @@
 				}
 			}
 		},
-		"/api/productfeeds/seed": {
+		"/interfaces/productfeeds/seed": {
 			"post": {
 				"operationId": "SeedProductFeeds",
 				"responses": {
@@ -1883,7 +1812,7 @@
 				"parameters": []
 			}
 		},
-		"/suppliers": {
+		"/etlcore/suppliers": {
 			"get": {
 				"operationId": "GetSuppliers",
 				"responses": {
@@ -1931,149 +1860,13 @@
 				},
 				"description": "Získá seznam všech dodavatelů s podporou filtrování, řazení a stránkování",
 				"tags": [
-					"Suppliers"
+					"etlcore - Suppliers"
 				],
 				"security": [],
 				"parameters": []
-			},
-			"post": {
-				"operationId": "CreateSupplier",
-				"responses": {
-					"201": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/SupplierDto"
-								}
-							}
-						}
-					}
-				},
-				"description": "Vytvoří nového dodavatele",
-				"tags": [
-					"Suppliers"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"description": "Data pro vytvoření dodavatele",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateSupplierDto",
-								"description": "Data pro vytvoření dodavatele"
-							}
-						}
-					}
-				}
 			}
 		},
-		"/suppliers/{id}": {
-			"get": {
-				"operationId": "GetSupplier",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/SupplierDto"
-								}
-							}
-						}
-					}
-				},
-				"description": "Získá dodavatele podle ID",
-				"tags": [
-					"Suppliers"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "ID dodavatele",
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			},
-			"put": {
-				"operationId": "UpdateSupplier",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/SupplierDto"
-								}
-							}
-						}
-					}
-				},
-				"description": "Aktualizuje existujícího dodavatele",
-				"tags": [
-					"Suppliers"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "ID dodavatele",
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				],
-				"requestBody": {
-					"description": "Data pro aktualizaci dodavatele",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateSupplierDto",
-								"description": "Data pro aktualizaci dodavatele"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteSupplier",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"description": "Odstraní dodavatele",
-				"tags": [
-					"Suppliers"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "ID dodavatele",
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
-			}
-		},
-		"/suppliers/seed": {
+		"/etlcore/suppliers/seed": {
 			"post": {
 				"operationId": "SeedTestData",
 				"responses": {
@@ -2103,72 +1896,10 @@
 				},
 				"description": "Naplní databázi testovacími daty dodavatelů",
 				"tags": [
-					"Suppliers"
+					"etlcore - Suppliers"
 				],
 				"security": [],
 				"parameters": []
-			}
-		},
-		"/suppliers/active": {
-			"get": {
-				"operationId": "GetActiveSuppliers",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/SupplierDto"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"description": "Získá pouze aktivní dodavatele",
-				"tags": [
-					"Suppliers"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/suppliers/country/{country}": {
-			"get": {
-				"operationId": "GetSuppliersByCountry",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/SupplierDto"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"description": "Získá dodavatele podle země",
-				"tags": [
-					"Suppliers"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"description": "Země dodavatele",
-						"in": "path",
-						"name": "country",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
 			}
 		},
 		"/products": {
@@ -2431,7 +2162,7 @@
 				}
 			}
 		},
-		"/product-images": {
+		"/etlcore/product-images": {
 			"get": {
 				"operationId": "GetProductImages",
 				"responses": {
@@ -2479,7 +2210,7 @@
 				},
 				"description": "Získá seznam všech obrázků produktů s podporou filtrování, řazení a stránkování",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": []
@@ -2500,7 +2231,7 @@
 				},
 				"description": "Vytvoří nový obrázek produktu",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": [],
@@ -2518,7 +2249,7 @@
 				}
 			}
 		},
-		"/product-images/{id}": {
+		"/etlcore/product-images/{id}": {
 			"get": {
 				"operationId": "GetProductImage",
 				"responses": {
@@ -2535,7 +2266,7 @@
 				},
 				"description": "Získá obrázek produktu podle ID",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": [
@@ -2567,7 +2298,7 @@
 				},
 				"description": "Aktualizuje existující obrázek produktu",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": [
@@ -2604,7 +2335,7 @@
 				},
 				"description": "Odstraní obrázek produktu",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": [
@@ -2621,7 +2352,7 @@
 				]
 			}
 		},
-		"/product-images/product/{productId}": {
+		"/etlcore/product-images/product/{productId}": {
 			"get": {
 				"operationId": "GetProductImagesByProductId",
 				"responses": {
@@ -2651,7 +2382,7 @@
 				},
 				"description": "Získá všechny obrázky pro konkrétní produkt",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": [
@@ -2668,7 +2399,7 @@
 				]
 			}
 		},
-		"/product-images/product/{productId}/main": {
+		"/etlcore/product-images/product/{productId}/main": {
 			"get": {
 				"operationId": "GetMainProductImage",
 				"responses": {
@@ -2700,7 +2431,7 @@
 				},
 				"description": "Získá hlavní obrázek produktu",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": [
@@ -2717,7 +2448,7 @@
 				]
 			}
 		},
-		"/product-images/{id}/main/product/{productId}": {
+		"/etlcore/product-images/{id}/main/product/{productId}": {
 			"put": {
 				"operationId": "SetMainImage",
 				"responses": {
@@ -2766,7 +2497,7 @@
 				},
 				"description": "Nastaví obrázek jako hlavní pro konkrétní produkt",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": [
@@ -2793,7 +2524,7 @@
 				]
 			}
 		},
-		"/product-images/sort-order": {
+		"/etlcore/product-images/sort-order": {
 			"put": {
 				"operationId": "UpdateSortOrder",
 				"responses": {
@@ -2832,7 +2563,7 @@
 				},
 				"description": "Aktualizuje pořadí zobrazení obrázků",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": [],
@@ -2860,7 +2591,7 @@
 				}
 			}
 		},
-		"/product-images/seed": {
+		"/etlcore/product-images/seed": {
 			"post": {
 				"operationId": "SeedTestData",
 				"responses": {
@@ -2899,13 +2630,13 @@
 				},
 				"description": "Seedování testovacích dat obrázků produktů",
 				"tags": [
-					"Obrázky produktů"
+					"etlcore - Obrázky produktů"
 				],
 				"security": [],
 				"parameters": []
 			}
 		},
-		"/categories": {
+		"/etlcore/categories": {
 			"get": {
 				"operationId": "GetCategories",
 				"responses": {
@@ -2992,7 +2723,7 @@
 				}
 			}
 		},
-		"/categories/metadata": {
+		"/etlcore/categories/metadata": {
 			"get": {
 				"operationId": "GetCategoryMeta",
 				"responses": {
@@ -3015,7 +2746,7 @@
 				"parameters": []
 			}
 		},
-		"/categories/{id}": {
+		"/etlcore/categories/{id}": {
 			"get": {
 				"operationId": "GetCategory",
 				"responses": {
@@ -3118,7 +2849,7 @@
 				]
 			}
 		},
-		"/categories/subcategories/{parentId}": {
+		"/etlcore/categories/subcategories/{parentId}": {
 			"get": {
 				"operationId": "GetSubcategories",
 				"responses": {
@@ -3155,7 +2886,7 @@
 				]
 			}
 		},
-		"/categories/level/{level}": {
+		"/etlcore/categories/level/{level}": {
 			"get": {
 				"operationId": "GetCategoriesByLevel",
 				"responses": {
@@ -3192,7 +2923,7 @@
 				]
 			}
 		},
-		"/categories/seed": {
+		"/etlcore/categories/seed": {
 			"post": {
 				"operationId": "SeedTestData",
 				"responses": {

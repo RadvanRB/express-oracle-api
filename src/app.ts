@@ -39,6 +39,7 @@ export const createApp = (): Express => {
   });
 
   app.use("/products", parseQueryParams);
+  app.use("/etlcore/suppliers", parseQueryParams);
 
   // Nastavení TSOA cest
   RegisterRoutes(app);

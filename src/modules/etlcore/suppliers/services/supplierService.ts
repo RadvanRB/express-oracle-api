@@ -74,27 +74,6 @@ class SupplierService extends AbstractService<Supplier> {
   }
 
   /**
-   * Najde dodavatele podle ID
-   * Využívá findByPrimaryKey metodu z AbstractService
-   */
-  async findById(id: number): Promise<Supplier | null | DbErrorResponse> {
-    try {
-      return await this.findByPrimaryKey(id);
-    } catch (error) {
-      console.error(`Chyba při hledání dodavatele s ID ${id}:`, error);
-      throw error;
-    }
-  }
-
-  /**
-   * Vytvoření nového dodavatele
-   * Využívá createOne metodu z AbstractService
-   */
-  async create(supplierData: CreateSupplierDto): Promise<Supplier | DbErrorResponse> {
-    return this.createOne(supplierData);
-  }
-
-  /**
    * Vytvoření více dodavatelů najednou
    * Využívá createMany metodu z AbstractService
    */
@@ -117,39 +96,6 @@ class SupplierService extends AbstractService<Supplier> {
     return await this.createBulk(suppliersDto);
   }
 
-  /**
-   * Najde všechny aktivní dodavatele
-   */
-  async findActive(): Promise<Supplier[] | DbErrorResponse> {
-    try {
-      return await this.repository.findBy({ isActive: true });
-    } catch (error) {
-      console.error("Chyba při hledání aktivních dodavatelů:", error);
-      return { 
-        success: false,
-        message: "Chyba při hledání aktivních dodavatelů",
-        error: error instanceof Error ? error.message : String(error),
-        recovered: false
-      };
-    }
-  }
-
-  /**
-   * Najde dodavatele podle země
-   */
-  async findByCountry(country: string): Promise<Supplier[] | DbErrorResponse> {
-    try {
-      return await this.repository.findBy({ country });
-    } catch (error) {
-      console.error(`Chyba při hledání dodavatelů ze země ${country}:`, error);
-      return { 
-        success: false,
-        message: `Chyba při hledání dodavatelů ze země ${country}`,
-        error: error instanceof Error ? error.message : String(error),
-        recovered: false
-      };
-    }
-  }
 }
 
 // Exportujeme třídu místo instance

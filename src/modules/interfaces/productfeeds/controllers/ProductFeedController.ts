@@ -24,7 +24,7 @@ import { isDbErrorResponse } from '../../../../services/AbstractService';
  * Controller pro práci s datovými toky produktů
  * Demonstruje mezioborové vztahy entit (modul interfaces <-> modul etlcore)
  */
-@Route("api/productfeeds")
+@Route("interfaces/productfeeds")
 @Tags("Interfaces - ProductFeeds")
 export class ProductFeedController extends AbstractController<
   ProductFeed,

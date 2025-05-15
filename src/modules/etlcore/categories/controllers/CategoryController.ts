@@ -23,7 +23,7 @@ import { EntityMetadata } from "../../../../types/metadata";
 /**
  * Controller pro správu kategorií produktů
  */
-@Route("categories")
+@Route("etlcore/categories")
 @Tags("ETLCore - Categories")
 export class CategoryController extends AbstractController<
   Category,

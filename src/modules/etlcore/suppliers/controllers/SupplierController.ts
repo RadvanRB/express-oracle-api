@@ -21,8 +21,8 @@ import { isDbErrorResponse } from '../../../../services/AbstractService';
 /**
  * Controller pro správu dodavatelů
  */
-@Route("suppliers")
-@Tags("Suppliers")
+@Route("etlcore/suppliers")
+@Tags("etlcore - Suppliers")
 export class SupplierController extends AbstractController<
   Supplier,
   CreateSupplierDto,
@@ -52,54 +52,6 @@ export class SupplierController extends AbstractController<
   }
 
   /**
-   * Získá dodavatele podle ID
-   * @param id ID dodavatele
-   */
-  @Get("{id}")
-  public async getSupplier(
-    @Path() id: number
-  ): Promise<SupplierDto> {
-    return await this.getById(id);
-  }
-
-  /**
-   * Vytvoří nového dodavatele
-   * @param requestBody Data pro vytvoření dodavatele
-   */
-  @Post()
-  @SuccessResponse("201", "Created")
-  public async createSupplier(
-    @Body() requestBody: CreateSupplierDto
-  ): Promise<SupplierDto> {
-    this.setStatus(201);
-    return await this.create(requestBody);
-  }
-
-  /**
-   * Aktualizuje existujícího dodavatele
-   * @param id ID dodavatele
-   * @param requestBody Data pro aktualizaci dodavatele
-   */
-  @Put("{id}")
-  public async updateSupplier(
-    @Path() id: number,
-    @Body() requestBody: UpdateSupplierDto
-  ): Promise<SupplierDto> {
-    return await this.update(id, requestBody);
-  }
-
-  /**
-   * Odstraní dodavatele
-   * @param id ID dodavatele
-   */
-  @Delete("{id}")
-  public async deleteSupplier(
-    @Path() id: number
-  ): Promise<void> {
-    await this.delete(id);
-  }
-
-  /**
    * Naplní databázi testovacími daty dodavatelů
    */
   @Post("seed")
@@ -120,38 +72,7 @@ export class SupplierController extends AbstractController<
     };
   }
 
-  /**
-   * Získá pouze aktivní dodavatele
-   */
-  @Get("active")
-  public async getActiveSuppliers(): Promise<SupplierDto[]> {
-    const result = await this.supplierService.findActive();
-    
-    if (isDbErrorResponse(result)) {
-      this.setStatus(500);
-      throw new Error(result.message);
-    }
-    
-    return result.map(entity => this.mapToDto(entity));
-  }
-
-  /**
-   * Získá dodavatele podle země
-   * @param country Země dodavatele
-   */
-  @Get("country/{country}")
-  public async getSuppliersByCountry(
-    @Path() country: string
-  ): Promise<SupplierDto[]> {
-    const result = await this.supplierService.findByCountry(country);
-    
-    if (isDbErrorResponse(result)) {
-      this.setStatus(500);
-      throw new Error(result.message);
-    }
-    
-    return result.map(entity => this.mapToDto(entity));
-  }
+  
 
   /**
    * Mapuje entitu Supplier na SupplierDto

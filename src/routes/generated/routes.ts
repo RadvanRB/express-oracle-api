@@ -116,38 +116,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CreateSupplierDto": {
-        "dataType": "refObject",
-        "properties": {
-            "name": {"dataType":"string","required":true},
-            "contactName": {"dataType":"string"},
-            "contactEmail": {"dataType":"string"},
-            "contactPhone": {"dataType":"string"},
-            "address": {"dataType":"string"},
-            "city": {"dataType":"string"},
-            "postalCode": {"dataType":"string"},
-            "country": {"dataType":"string"},
-            "isActive": {"dataType":"boolean"},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UpdateSupplierDto": {
-        "dataType": "refObject",
-        "properties": {
-            "name": {"dataType":"string"},
-            "contactName": {"dataType":"string"},
-            "contactEmail": {"dataType":"string"},
-            "contactPhone": {"dataType":"string"},
-            "address": {"dataType":"string"},
-            "city": {"dataType":"string"},
-            "postalCode": {"dataType":"string"},
-            "country": {"dataType":"string"},
-            "isActive": {"dataType":"boolean"},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ProductDto": {
         "dataType": "refObject",
         "properties": {
@@ -601,7 +569,7 @@ export function RegisterRoutes(app: Router) {
                 isActive: {"in":"query","name":"isActive","dataType":"boolean"},
                 format: {"in":"query","name":"format","dataType":"string"},
         };
-        app.get('/api/productfeeds',
+        app.get('/interfaces/productfeeds',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.getProductFeeds)),
 
@@ -631,7 +599,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductFeedController_getProductFeed: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.get('/api/productfeeds/:id',
+        app.get('/interfaces/productfeeds/:id',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.getProductFeed)),
 
@@ -661,7 +629,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductFeedController_createProductFeed: Record<string, TsoaRoute.ParameterSchema> = {
                 requestBody: {"in":"body","name":"requestBody","required":true,"ref":"CreateProductFeedDto"},
         };
-        app.post('/api/productfeeds',
+        app.post('/interfaces/productfeeds',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.createProductFeed)),
 
@@ -692,7 +660,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 requestBody: {"in":"body","name":"requestBody","required":true,"ref":"UpdateProductFeedDto"},
         };
-        app.put('/api/productfeeds/:id',
+        app.put('/interfaces/productfeeds/:id',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.updateProductFeed)),
 
@@ -722,7 +690,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductFeedController_deleteProductFeed: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.delete('/api/productfeeds/:id',
+        app.delete('/interfaces/productfeeds/:id',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.deleteProductFeed)),
 
@@ -752,7 +720,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductFeedController_getProductsForFeed: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.get('/api/productfeeds/:id/products',
+        app.get('/interfaces/productfeeds/:id/products',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.getProductsForFeed)),
 
@@ -783,7 +751,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 requestBody: {"in":"body","name":"requestBody","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"productIds":{"dataType":"array","array":{"dataType":"double"},"required":true}}},
         };
-        app.post('/api/productfeeds/:id/products',
+        app.post('/interfaces/productfeeds/:id/products',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.addProductsToFeed)),
 
@@ -814,7 +782,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 requestBody: {"in":"body","name":"requestBody","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"productIds":{"dataType":"array","array":{"dataType":"double"},"required":true}}},
         };
-        app.put('/api/productfeeds/:id/products',
+        app.put('/interfaces/productfeeds/:id/products',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.updateProductsInFeed)),
 
@@ -845,7 +813,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 requestBody: {"in":"body","name":"requestBody","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"productIds":{"dataType":"array","array":{"dataType":"double"},"required":true}}},
         };
-        app.delete('/api/productfeeds/:id/products',
+        app.delete('/interfaces/productfeeds/:id/products',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.removeProductsFromFeed)),
 
@@ -874,7 +842,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsProductFeedController_seedProductFeeds: Record<string, TsoaRoute.ParameterSchema> = {
         };
-        app.post('/api/productfeeds/seed',
+        app.post('/interfaces/productfeeds/seed',
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController)),
             ...(fetchMiddlewares<RequestHandler>(ProductFeedController.prototype.seedProductFeeds)),
 
@@ -904,7 +872,7 @@ export function RegisterRoutes(app: Router) {
         const argsSupplierController_getSuppliers: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
         };
-        app.get('/suppliers',
+        app.get('/etlcore/suppliers',
             ...(fetchMiddlewares<RequestHandler>(SupplierController)),
             ...(fetchMiddlewares<RequestHandler>(SupplierController.prototype.getSuppliers)),
 
@@ -931,130 +899,9 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsSupplierController_getSupplier: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-        };
-        app.get('/suppliers/:id',
-            ...(fetchMiddlewares<RequestHandler>(SupplierController)),
-            ...(fetchMiddlewares<RequestHandler>(SupplierController.prototype.getSupplier)),
-
-            async function SupplierController_getSupplier(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsSupplierController_getSupplier, request, response });
-
-                const controller = new SupplierController();
-
-              await templateService.apiHandler({
-                methodName: 'getSupplier',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsSupplierController_createSupplier: Record<string, TsoaRoute.ParameterSchema> = {
-                requestBody: {"in":"body","name":"requestBody","required":true,"ref":"CreateSupplierDto"},
-        };
-        app.post('/suppliers',
-            ...(fetchMiddlewares<RequestHandler>(SupplierController)),
-            ...(fetchMiddlewares<RequestHandler>(SupplierController.prototype.createSupplier)),
-
-            async function SupplierController_createSupplier(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsSupplierController_createSupplier, request, response });
-
-                const controller = new SupplierController();
-
-              await templateService.apiHandler({
-                methodName: 'createSupplier',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: 201,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsSupplierController_updateSupplier: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-                requestBody: {"in":"body","name":"requestBody","required":true,"ref":"UpdateSupplierDto"},
-        };
-        app.put('/suppliers/:id',
-            ...(fetchMiddlewares<RequestHandler>(SupplierController)),
-            ...(fetchMiddlewares<RequestHandler>(SupplierController.prototype.updateSupplier)),
-
-            async function SupplierController_updateSupplier(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsSupplierController_updateSupplier, request, response });
-
-                const controller = new SupplierController();
-
-              await templateService.apiHandler({
-                methodName: 'updateSupplier',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsSupplierController_deleteSupplier: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
-        };
-        app.delete('/suppliers/:id',
-            ...(fetchMiddlewares<RequestHandler>(SupplierController)),
-            ...(fetchMiddlewares<RequestHandler>(SupplierController.prototype.deleteSupplier)),
-
-            async function SupplierController_deleteSupplier(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsSupplierController_deleteSupplier, request, response });
-
-                const controller = new SupplierController();
-
-              await templateService.apiHandler({
-                methodName: 'deleteSupplier',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsSupplierController_seedTestData: Record<string, TsoaRoute.ParameterSchema> = {
         };
-        app.post('/suppliers/seed',
+        app.post('/etlcore/suppliers/seed',
             ...(fetchMiddlewares<RequestHandler>(SupplierController)),
             ...(fetchMiddlewares<RequestHandler>(SupplierController.prototype.seedTestData)),
 
@@ -1075,65 +922,6 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: 201,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsSupplierController_getActiveSuppliers: Record<string, TsoaRoute.ParameterSchema> = {
-        };
-        app.get('/suppliers/active',
-            ...(fetchMiddlewares<RequestHandler>(SupplierController)),
-            ...(fetchMiddlewares<RequestHandler>(SupplierController.prototype.getActiveSuppliers)),
-
-            async function SupplierController_getActiveSuppliers(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsSupplierController_getActiveSuppliers, request, response });
-
-                const controller = new SupplierController();
-
-              await templateService.apiHandler({
-                methodName: 'getActiveSuppliers',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
-              });
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsSupplierController_getSuppliersByCountry: Record<string, TsoaRoute.ParameterSchema> = {
-                country: {"in":"path","name":"country","required":true,"dataType":"string"},
-        };
-        app.get('/suppliers/country/:country',
-            ...(fetchMiddlewares<RequestHandler>(SupplierController)),
-            ...(fetchMiddlewares<RequestHandler>(SupplierController.prototype.getSuppliersByCountry)),
-
-            async function SupplierController_getSuppliersByCountry(request: ExRequest, response: ExResponse, next: any) {
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsSupplierController_getSuppliersByCountry, request, response });
-
-                const controller = new SupplierController();
-
-              await templateService.apiHandler({
-                methodName: 'getSuppliersByCountry',
-                controller,
-                response,
-                next,
-                validatedArgs,
-                successStatus: undefined,
               });
             } catch (err) {
                 return next(err);
@@ -1232,7 +1020,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductImageController_getProductImages: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
         };
-        app.get('/product-images',
+        app.get('/etlcore/product-images',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.getProductImages)),
 
@@ -1262,7 +1050,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductImageController_getProductImage: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.get('/product-images/:id',
+        app.get('/etlcore/product-images/:id',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.getProductImage)),
 
@@ -1292,7 +1080,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductImageController_createProductImage: Record<string, TsoaRoute.ParameterSchema> = {
                 requestBody: {"in":"body","name":"requestBody","required":true,"ref":"CreateProductImageDto"},
         };
-        app.post('/product-images',
+        app.post('/etlcore/product-images',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.createProductImage)),
 
@@ -1323,7 +1111,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 requestBody: {"in":"body","name":"requestBody","required":true,"ref":"UpdateProductImageDto"},
         };
-        app.put('/product-images/:id',
+        app.put('/etlcore/product-images/:id',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.updateProductImage)),
 
@@ -1353,7 +1141,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductImageController_deleteProductImage: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.delete('/product-images/:id',
+        app.delete('/etlcore/product-images/:id',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.deleteProductImage)),
 
@@ -1383,7 +1171,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductImageController_getProductImagesByProductId: Record<string, TsoaRoute.ParameterSchema> = {
                 productId: {"in":"path","name":"productId","required":true,"dataType":"double"},
         };
-        app.get('/product-images/product/:productId',
+        app.get('/etlcore/product-images/product/:productId',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.getProductImagesByProductId)),
 
@@ -1413,7 +1201,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductImageController_getMainProductImage: Record<string, TsoaRoute.ParameterSchema> = {
                 productId: {"in":"path","name":"productId","required":true,"dataType":"double"},
         };
-        app.get('/product-images/product/:productId/main',
+        app.get('/etlcore/product-images/product/:productId/main',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.getMainProductImage)),
 
@@ -1444,7 +1232,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 productId: {"in":"path","name":"productId","required":true,"dataType":"double"},
         };
-        app.put('/product-images/:id/main/product/:productId',
+        app.put('/etlcore/product-images/:id/main/product/:productId',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.setMainImage)),
 
@@ -1474,7 +1262,7 @@ export function RegisterRoutes(app: Router) {
         const argsProductImageController_updateSortOrder: Record<string, TsoaRoute.ParameterSchema> = {
                 requestBody: {"in":"body","name":"requestBody","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"imageIds":{"dataType":"array","array":{"dataType":"double"},"required":true}}},
         };
-        app.put('/product-images/sort-order',
+        app.put('/etlcore/product-images/sort-order',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.updateSortOrder)),
 
@@ -1503,7 +1291,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsProductImageController_seedTestData: Record<string, TsoaRoute.ParameterSchema> = {
         };
-        app.post('/product-images/seed',
+        app.post('/etlcore/product-images/seed',
             ...(fetchMiddlewares<RequestHandler>(ProductImageController)),
             ...(fetchMiddlewares<RequestHandler>(ProductImageController.prototype.seedTestData)),
 
@@ -1533,7 +1321,7 @@ export function RegisterRoutes(app: Router) {
         const argsCategoryController_getCategories: Record<string, TsoaRoute.ParameterSchema> = {
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
         };
-        app.get('/categories',
+        app.get('/etlcore/categories',
             ...(fetchMiddlewares<RequestHandler>(CategoryController)),
             ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.getCategories)),
 
@@ -1562,7 +1350,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCategoryController_getCategoryMeta: Record<string, TsoaRoute.ParameterSchema> = {
         };
-        app.get('/categories/metadata',
+        app.get('/etlcore/categories/metadata',
             ...(fetchMiddlewares<RequestHandler>(CategoryController)),
             ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.getCategoryMeta)),
 
@@ -1592,7 +1380,7 @@ export function RegisterRoutes(app: Router) {
         const argsCategoryController_getCategory: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.get('/categories/:id',
+        app.get('/etlcore/categories/:id',
             ...(fetchMiddlewares<RequestHandler>(CategoryController)),
             ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.getCategory)),
 
@@ -1622,7 +1410,7 @@ export function RegisterRoutes(app: Router) {
         const argsCategoryController_createCategory: Record<string, TsoaRoute.ParameterSchema> = {
                 requestBody: {"in":"body","name":"requestBody","required":true,"ref":"CreateCategoryDto"},
         };
-        app.post('/categories',
+        app.post('/etlcore/categories',
             ...(fetchMiddlewares<RequestHandler>(CategoryController)),
             ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.createCategory)),
 
@@ -1653,7 +1441,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
                 requestBody: {"in":"body","name":"requestBody","required":true,"ref":"UpdateCategoryDto"},
         };
-        app.put('/categories/:id',
+        app.put('/etlcore/categories/:id',
             ...(fetchMiddlewares<RequestHandler>(CategoryController)),
             ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.updateCategory)),
 
@@ -1683,7 +1471,7 @@ export function RegisterRoutes(app: Router) {
         const argsCategoryController_deleteCategory: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };
-        app.delete('/categories/:id',
+        app.delete('/etlcore/categories/:id',
             ...(fetchMiddlewares<RequestHandler>(CategoryController)),
             ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.deleteCategory)),
 
@@ -1713,7 +1501,7 @@ export function RegisterRoutes(app: Router) {
         const argsCategoryController_getSubcategories: Record<string, TsoaRoute.ParameterSchema> = {
                 parentId: {"in":"path","name":"parentId","required":true,"dataType":"double"},
         };
-        app.get('/categories/subcategories/:parentId',
+        app.get('/etlcore/categories/subcategories/:parentId',
             ...(fetchMiddlewares<RequestHandler>(CategoryController)),
             ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.getSubcategories)),
 
@@ -1743,7 +1531,7 @@ export function RegisterRoutes(app: Router) {
         const argsCategoryController_getCategoriesByLevel: Record<string, TsoaRoute.ParameterSchema> = {
                 level: {"in":"path","name":"level","required":true,"dataType":"double"},
         };
-        app.get('/categories/level/:level',
+        app.get('/etlcore/categories/level/:level',
             ...(fetchMiddlewares<RequestHandler>(CategoryController)),
             ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.getCategoriesByLevel)),
 
@@ -1772,7 +1560,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCategoryController_seedTestData: Record<string, TsoaRoute.ParameterSchema> = {
         };
-        app.post('/categories/seed',
+        app.post('/etlcore/categories/seed',
             ...(fetchMiddlewares<RequestHandler>(CategoryController)),
             ...(fetchMiddlewares<RequestHandler>(CategoryController.prototype.seedTestData)),
 

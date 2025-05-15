@@ -22,8 +22,8 @@ import { DbErrorResponse, isDbErrorResponse } from '../../../../services/Abstrac
 /**
  * Controller pro správu obrázků produktů
  */
-@Route("product-images")
-@Tags("Obrázky produktů")
+@Route("etlcore/product-images")
+@Tags("etlcore - Obrázky produktů")
 export class ProductImageController extends AbstractController<
   ProductImage,
   CreateProductImageDto,
